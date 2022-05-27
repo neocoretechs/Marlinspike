@@ -1,4 +1,4 @@
-<H2>  RoboCore robotic controller platform. </H2>
+<H2>  Marlinspike robotic controller platform. </H2>
 Object oriented C++ version of Mega2560 M and G code front end processing via USB port of Arduino.
  
  Processes a variation of M and G code from CNC and 3D printing to control a range of motor controllers and drivers
@@ -37,7 +37,7 @@ and controllers so attached to it.
 Much like 3D printers process M and G codes for generating movement and action, the attached board functions in the same way using a special protocol.
 Timers, controllers, and pins are all first class objects in a compact subsystem, created and manipulated by the proper M and G codes.
 
-In conjunction with this, project RoboCore provides Java demultiplexing of the responses from the Mega2560 via the RXTX 
+In conjunction with this, project Marlinspike provides Java demultiplexing of the responses from the Mega2560 via the RXTX 
 serial library to process the data acquisition and box it up for publishing on the ROS topic.
 
 Values from ultrasonic sensors, digital and analog pins and other accessories can be set to stream real time data back over the USB port.
