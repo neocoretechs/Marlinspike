@@ -562,10 +562,8 @@ void processGCode(int cval) {
 	        accelStepper->setCurrentPosition(accelStepper->currentPosition()); // Set step 0 "here"
 	        accelStepper->setSpeed(motorSpeed); // Previous commands have reset the speed
 	        // Since we step forward 2047 steps, current position is starting point of the rotation
-			for(int i = 0; i < steps; i++) {
-				accelStepper->moveTo(accelStepper->currentPosition()+1); // 1 turn = 2048 step
-				accelStepper->run();
-			}
+			accelStepper->moveTo(accelStepper->currentPosition()+steps); // 1 turn = 2048 step
+			accelStepper->run();
 			SERIAL_PGM(MSG_BEGIN);
 			SERIAL_PGM("G202");
 			SERIAL_PGMLN(MSG_TERMINATE);
@@ -584,10 +582,8 @@ void processGCode(int cval) {
 			accelStepper->setCurrentPosition(accelStepper->currentPosition()); // Set step 0 "here"
 			accelStepper->setSpeed(motorSpeed); // Previous commands have reset the speed
 			// Since we step backward 2047 steps, current position is starting point of the rotation
-			for(int i = 0; i < steps; i++) {
-				accelStepper->moveTo(-(accelStepper->currentPosition()-1)); // 1 turn = 2048 step
-				accelStepper->run();
-			}
+			accelStepper->moveTo(accelStepper->currentPosition()-steps); // 1 turn = 2048 step
+			accelStepper->run();
 			SERIAL_PGM(MSG_BEGIN);
 			SERIAL_PGM("G203");
 			SERIAL_PGMLN(MSG_TERMINATE);
