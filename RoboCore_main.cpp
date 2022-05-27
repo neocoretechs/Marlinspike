@@ -557,13 +557,16 @@ void processGCode(int cval) {
 				steps = code_value();
 	        // The two lines that follow allow to send commands in any sequence:
 	        // before execution, a quick stop is performed
-	        accelStepper->stop(); // Stop as fast as possible: sets new target
-	        accelStepper->runToPosition(); // Now stopped after quickstop
+	        //accelStepper->stop(); // Stop as fast as possible: sets new target
+	        //accelStepper->runToPosition(); // Now stopped after quickstop
 	        accelStepper->setCurrentPosition(accelStepper->currentPosition()); // Set step 0 "here"
 	        accelStepper->setSpeed(motorSpeed); // Previous commands have reset the speed
 	        // Since we step forward 2047 steps, current position is starting point of the rotation
 			accelStepper->moveTo(accelStepper->currentPosition()+steps); // 1 turn = 2048 step
-			accelStepper->run();
+			while (accelStepper->currentPosition() != accelStepper->targetPosition()) {
+				accelStepper->runSpeedToPosition();
+			}
+			//accelStepper->run();
 			SERIAL_PGM(MSG_BEGIN);
 			SERIAL_PGM("G202");
 			SERIAL_PGMLN(MSG_TERMINATE);
@@ -575,15 +578,13 @@ void processGCode(int cval) {
 		if(accelStepper) {
 			if(code_seen('S'))
 				steps = code_value();
-			// The two lines that follow allow to send commands in any sequence:
-			// before execution, a quick stop is performed
-			accelStepper->stop(); // Stop as fast as possible: sets new target
-			accelStepper->runToPosition(); // Now stopped after quickstop
 			accelStepper->setCurrentPosition(accelStepper->currentPosition()); // Set step 0 "here"
-			accelStepper->setSpeed(motorSpeed); // Previous commands have reset the speed
+			accelStepper->setSpeed(-motorSpeed); // Previous commands have reset the speed
 			// Since we step backward 2047 steps, current position is starting point of the rotation
 			accelStepper->moveTo(accelStepper->currentPosition()-steps); // 1 turn = 2048 step
-			accelStepper->run();
+			while (accelStepper->currentPosition() != accelStepper->targetPosition()) {
+					accelStepper->runSpeedToPosition();
+			}
 			SERIAL_PGM(MSG_BEGIN);
 			SERIAL_PGM("G203");
 			SERIAL_PGMLN(MSG_TERMINATE);
